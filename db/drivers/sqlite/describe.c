@@ -419,14 +419,14 @@ static int parse_type(const char *declared, int *length)
     if (streq(buf, "character") || streq(buf, "char") || streq(buf, "varchar"))
         return DB_SQL_TYPE_TEXT;
 
-    if (sscanf(buf, "%s %s", word[0], word[1]) == 2) {
+    if (sscanf(buf, "%255s %255s", word[0], word[1]) == 2) {
         if (streq(word[0], "double") && streq(word[1], "precision"))
             return DB_SQL_TYPE_DOUBLE_PRECISION;
         if (streq(word[0], "character") && streq(word[1], "varying"))
             return DB_SQL_TYPE_TEXT;
     }
 
-    if (sscanf(buf, "%s %s %s %s", word[0], word[1], word[2], word[3]) == 4 &&
+    if (sscanf(buf, "%255s %255s %255s %255s", word[0], word[1], word[2], word[3]) == 4 &&
         (streq(word[1], "with") || streq(word[1], "without")) &&
         streq(word[2], "time") && streq(word[3], "zone")) {
         if (streq(word[0], "time"))
@@ -459,7 +459,7 @@ static int parse_type(const char *declared, int *length)
         sscanf(buf, "datetime ( %d )", length) == 1)
         return DB_SQL_TYPE_TIMESTAMP;
 
-    if (sscanf(buf, "%s ( %d ) %s %s %s", word[0], length, word[1], word[2],
+    if (sscanf(buf, "%255s ( %d ) %255s %255s %255s", word[0], length, word[1], word[2],
                word[3]) == 5 &&
         (streq(word[1], "with") || streq(word[1], "without")) &&
         streq(word[2], "time") && streq(word[3], "zone")) {
